@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Outlet } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import ProfileDetails from './ProfileDetails';
 import ProfileSettings from './ProfileSettings';
 
@@ -17,7 +17,12 @@ function Profile() {
           </li>
         </ul>
       </nav>
-      <Outlet /> {/* Nested Route will render here */}
+
+      {/* Render nested routes here */}
+      <Routes>
+        <Route path="details" element={<ProfileDetails />} />
+        <Route path="settings" element={<ProfileSettings />} />
+      </Routes>
     </div>
   );
 }
