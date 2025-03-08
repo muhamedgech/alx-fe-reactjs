@@ -6,14 +6,19 @@ import * as Yup from 'yup';
 
 // Define the validation schema using Yup
 const validationSchema = Yup.object({
+  // Username validation - required and min length 3
   username: Yup.string()
-    .required('Username is required')
+    .required('Username is required') // string().required()
     .min(3, 'Username must be at least 3 characters'),
+
+  // Email validation - required and valid email format
   email: Yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
+    .email('Invalid email format') // checks if email is valid
+    .required('Email is required'), // string().required()
+
+  // Password validation - required and min length 6
   password: Yup.string()
-    .required('Password is required')
+    .required('Password is required') // string().required()
     .min(6, 'Password must be at least 6 characters'),
 });
 
@@ -38,7 +43,7 @@ const FormikForm = () => {
       {/* Using Formik */}
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema} // Yup validation schema
         onSubmit={onSubmit}
       >
         {/* Formik's Form Component */}
