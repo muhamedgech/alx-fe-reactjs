@@ -1,31 +1,5 @@
 import React, { useState } from 'react';
 
-// AddTodoForm component
-const AddTodoForm = ({ addTodo }) => {
-  const [newTodo, setNewTodo] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newTodo.trim()) {
-      addTodo(newTodo);  // Add todo when form is submitted
-      setNewTodo('');  // Clear input field
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}  // Update state with the value of the input
-        placeholder="Add new todo"
-      />
-      <button type="submit">Add Todo</button>
-    </form>
-  );
-};
-
-// Main TodoList component
 const TodoList = () => {
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React', completed: false },
@@ -36,26 +10,29 @@ const TodoList = () => {
   const addTodo = (text) => {
     setTodos([
       ...todos,
-      { id: Date.now(), text, completed: false }, // Add new todo
+      { id: Date.now(), text, completed: false },
     ]);
   };
 
   const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    setTodos(todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
   };
 
   const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id)); // Remove todo by id
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
     <div>
       <h1>Todo List</h1>
-      <AddTodoForm addTodo={addTodo} />
+      <input
+        type="text"
+        placeholder="Add new todo"
+        onChange={(e) => addTodo(e.target.value)}
+      />
+      <button onClick={() => addTodo('New Todo')}>Add Todo</button>
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
