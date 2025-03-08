@@ -6,7 +6,8 @@ import ProfileDetails from './components/ProfileDetails';
 import ProfileSettings from './components/ProfileSettings';
 import NotFound from './components/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
-import UserProfile from './components/UserProfile';  // Import the new UserProfile component
+import BlogPost from './components/BlogPost';  // Import BlogPost component
+import UserProfile from './components/UserProfile';
 
 function App() {
   return (
@@ -21,8 +22,11 @@ function App() {
           <Route path="settings" element={<ProfileSettings />} />
         </Route>
 
-        {/* Dynamic Route for User Profiles */}
-        <Route path="/blog/:id" element={<UserProfile />} />  {/* Dynamic user profile route */}
+        {/* Dynamic Route for User Profile */}
+        <Route path="/user/:id" element={<UserProfile />} />
+
+        {/* Dynamic Route for Blog Post */}
+        <Route path="/blog/:id" element={<BlogPost />} />  {/* Dynamic route for blog posts */}
 
         {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
