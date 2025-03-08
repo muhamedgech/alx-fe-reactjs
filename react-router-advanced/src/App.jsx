@@ -5,33 +5,36 @@ import Profile from './components/Profile';
 import ProfileDetails from './components/ProfileDetails';
 import ProfileSettings from './components/ProfileSettings';
 import NotFound from './components/NotFound';
-import ProtectedRoute from './components/ProtectedRoute';
-import BlogPost from './components/BlogPost';  // Import BlogPost component
+import BlogPost from './components/BlogPost';
 import UserProfile from './components/UserProfile';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';  // Import AuthProvider
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Home Route */}
-        <Route path="/" element={<Home />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Home Route */}
+          <Route path="/" element={<Home />} />
 
-        {/* Protected Route for Profile */}
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}>
-          <Route path="details" element={<ProfileDetails />} />
-          <Route path="settings" element={<ProfileSettings />} />
-        </Route>
+          {/* Protected Route for Profile */}
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}>
+            <Route path="details" element={<ProfileDetails />} />
+            <Route path="settings" element={<ProfileSettings />} />
+          </Route>
 
-        {/* Dynamic Route for User Profile */}
-        <Route path="/user/:id" element={<UserProfile />} />
+          {/* Dynamic Route for User Profile */}
+          <Route path="/user/:id" element={<UserProfile />} />
 
-        {/* Dynamic Route for Blog Post */}
-        <Route path="/blog/:id" element={<BlogPost />} />  {/* Dynamic route for blog posts */}
+          {/* Dynamic Route for Blog Post */}
+          <Route path="/blog/:id" element={<BlogPost />} />
 
-        {/* 404 Route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
