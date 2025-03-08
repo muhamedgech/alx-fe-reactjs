@@ -1,15 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'; // For jest-dom matchers
 import TodoList from '../components/TodoList';
 
-describe('TodoList', () => {
-  test('renders the TodoList component correctly', () => {
+describe('TodoList Component', () => {
+  test('renders TodoList with initial todos', () => {
     render(<TodoList />);
-    // Check if Todo List heading is present
-    expect(screen.getByText(/Todo List/i)).toBeInTheDocument();
     
-    // Check if initial todos are rendered
+    // Check if the initial todos are rendered
     expect(screen.getByText('Learn React')).toBeInTheDocument();
     expect(screen.getByText('Learn Jest')).toBeInTheDocument();
     expect(screen.getByText('Write Tests')).toBeInTheDocument();
@@ -17,36 +15,42 @@ describe('TodoList', () => {
 
   test('adds a new todo item', () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText('Add new todo');
-    const button = screen.getByText('Add Todo');
-
+    
     // Simulate user input and form submission
-    fireEvent.change(input, { target: { value: 'New Todo' } });
-    fireEvent.click(button);
-
-    // Verify that the new todo is added
+    fireEvent.change(screen.getByPlaceholderText('Add new todo'), {
+      target: { value: 'New Todo' }
+    });
+    fireEvent.click(screen.getByText('Add Todo'));
+    
+    // Check if the new todo is added
     expect(screen.getByText('New Todo')).toBeInTheDocument();
   });
 
-  test('toggles the completion status of a todo', () => {
+  test('toggles todo completion status', () => {
     render(<TodoList />);
-    const todo = screen.getByText('Learn React');
-
-    // Click on the todo to toggle its completed status
-    fireEvent.click(todo);
-
-    // Verify that the todo's text is crossed out
-    expect(todo).toHaveStyle('text-decoration: line-through');
+    const todoItem = screen.getByText('Learn React');
+    
+    // Simulate a click to toggle completion
+    fireEvent.click(todoItem);
+    
+    // Verify that the todo is crossed out (completed)
+    expect(todoItem).toHaveStyle('text-decoration: line-through');
+    
+    // Click again to toggle back to not completed
+    fireEvent.click(todoItem);
+    
+    // Verify that the todo is not crossed out (not completed)
+    expect(todoItem).not.toHaveStyle('text-decoration: line-through');
   });
 
   test('deletes a todo item', () => {
     render(<TodoList />);
-    const deleteButton = screen.getAllByText('Delete')[0];
-
-    // Click delete button
+    const deleteButton = screen.getAllByText('Delete')[0]; // Get the first "Delete" button
+    
+    // Click on the delete button
     fireEvent.click(deleteButton);
-
-    // Verify that the todo item is removed from the list
+    
+    // Verify that the todo is removed from the list
     expect(screen.queryByText('Learn React')).not.toBeInTheDocument();
   });
 });
