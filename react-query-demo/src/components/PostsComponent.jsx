@@ -1,9 +1,8 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 
-// Fetch function to get posts from JSONPlaceholder API
-const fetchPosts = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+const fetchPosts = async (page = 1) => {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
@@ -11,12 +10,19 @@ const fetchPosts = async () => {
 };
 
 function PostsComponent() {
-  // useQuery hook to fetch and cache data
-  const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts, {
-    // Enable caching - React Query will cache the posts data
-    cacheTime: 1000 * 60 * 5, // Cache data for 5 minutes
-    staleTime: 1000 * 30, // Data considered fresh for 30 seconds
-  });
+  const [page, setPage] = React.useState(1);
+
+  // Use the page parameter for pagination
+  const { data, error, isLoading, isError, isFetching, refetch } = useQuery(
+    ['posts', page], // Use an array to cache by page
+    () => fetchPosts(page),
+    {
+      cacheTime: 1000 * 60 * 5, // Cache data for 5 minutes
+      staleTime: 1000 * 30, // Data considered fresh for 30 seconds
+      refetchOnWindowFocus: false, // Disable refetch on window focus
+      keepPreviousData: true, // Keep previous data while loading new data
+    }
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,7 +34,7 @@ function PostsComponent() {
 
   return (
     <div>
-      <h2>Posts</h2>
+      <h2>Posts (Page {page})</h2>
       <button onClick={refetch}>Refetch Data</button>
       <ul>
         {data.map((post) => (
@@ -38,6 +44,20 @@ function PostsComponent() {
           </li>
         ))}
       </ul>
+      <div>
+        <button
+          disabled={isFetching}
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+        >
+          Previous Page
+        </button>
+        <button
+          disabled={isFetching}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next Page
+        </button>
+      </div>
     </div>
   );
 }
