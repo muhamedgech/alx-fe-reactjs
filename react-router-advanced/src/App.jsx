@@ -22,7 +22,7 @@ function App() {
         </Route>
 
         {/* Dynamic Route for User Profiles */}
-        <Route path="/user/:id" element={<UserProfile />} />  {/* Dynamic user profile route */}
+        <Route path="/blog/:id" element={<UserProfile />} />  {/* Dynamic user profile route */}
 
         {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
