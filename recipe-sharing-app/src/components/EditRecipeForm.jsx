@@ -20,8 +20,8 @@ const EditRecipeForm = () => {
   }, [recipe]);
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();  // Prevent default form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();  // Prevent default form submission
     if (recipe) {
       updateRecipe({ id: recipe.id, title, description });  // Update the recipe with new data
       navigate(`/recipe/${recipe.id}`);  // Redirect to the recipe details page after update
