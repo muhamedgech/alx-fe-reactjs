@@ -1,19 +1,32 @@
-// EditRecipeForm.jsx
-import { useState } from 'react';
-import { useRecipeStore } from './recipeStore';
+// src/components/EditRecipeForm.js
+import React, { useState, useEffect } from 'react';
+import { useRecipeStore } from '../store/recipeStore';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const EditRecipeForm = ({ recipe }) => {
-  const [title, setTitle] = useState(recipe.title);
-  const [description, setDescription] = useState(recipe.description);
-  const updateRecipe = useRecipeStore((state) => state.updateRecipe);
+const EditRecipeForm = () => {
+  const { recipeId } = useParams();
+  const recipe = useRecipeStore(state =>
+    state.recipes.find(recipe => recipe.id === recipeId)
+  );
+  const updateRecipe = useRecipeStore(state => state.updateRecipe);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-    
-    // Update the recipe using Zustand store
-    updateRecipe({ id: recipe.id, title, description });
+  useEffect(() => {
+    if (recipe) {
+      setTitle(recipe.title);
+      setDescription(recipe.description);
+    }
+  }, [recipe]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateRecipe({ id: recipeId, title, description });
+    navigate(`/recipe/${recipeId}`);
   };
+
+  if (!recipe) return <div>Recipe not found</div>;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -21,14 +34,14 @@ const EditRecipeForm = ({ recipe }) => {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
+        placeholder="Recipe Title"
       />
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
+        placeholder="Recipe Description"
       />
-      <button type="submit">Update Recipe</button>
+      <button type="submit">Save Changes</button>
     </form>
   );
 };

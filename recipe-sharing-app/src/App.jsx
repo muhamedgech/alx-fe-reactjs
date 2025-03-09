@@ -1,9 +1,10 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import FavoritesList from './components/FavoritesList';
 import RecommendationsList from './components/RecommendationsList';
-import RecipeDetails from './components/RecipeDetails';  // Assumes this is already implemented
+import RecipeDetails from './components/RecipeDetails'; // Assumes this is already implemented
 
 const App = () => {
   return (

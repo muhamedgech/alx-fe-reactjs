@@ -1,5 +1,6 @@
+// src/components/SearchBar.js
 import React from 'react';
-import { useRecipeStore } from './recipeStore';
+import { useRecipeStore } from '../store/recipeStore';
 
 const SearchBar = () => {
   const setSearchTerm = useRecipeStore(state => state.setSearchTerm);
@@ -7,7 +8,7 @@ const SearchBar = () => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setSearchTerm(value);
+    setSearchTerm(value);  // Update search term in state
     filterRecipes();  // Trigger filtering based on the updated search term
   };
 
