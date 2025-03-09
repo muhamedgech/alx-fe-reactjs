@@ -1,10 +1,11 @@
-// src/App.js
+// src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import FavoritesList from './components/FavoritesList';
 import RecommendationsList from './components/RecommendationsList';
 import RecipeDetails from './components/RecipeDetails'; // Assumes this is already implemented
+import AddRecipeForm from './components/AddRecipeForm'; // Import the AddRecipeForm
 
 const App = () => {
   return (
@@ -14,9 +15,10 @@ const App = () => {
 
         {/* Main Navigation */}
         <nav>
-          <a href="/">Home</a>
-          <a href="/favorites">My Favorites</a>
-          <a href="/recommendations">Recommendations</a>
+          <Link to="/">Home</Link>
+          <Link to="/favorites">My Favorites</Link>
+          <Link to="/recommendations">Recommendations</Link>
+          <Link to="/add-recipe">Add Recipe</Link> {/* Link to Add Recipe Form */}
         </nav>
 
         {/* Routing */}
@@ -25,6 +27,7 @@ const App = () => {
           <Route path="/favorites" element={<FavoritesList />} />
           <Route path="/recommendations" element={<RecommendationsList />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
+          <Route path="/add-recipe" element={<AddRecipeForm />} /> {/* Route for Add Recipe Form */}
         </Routes>
       </div>
     </Router>
