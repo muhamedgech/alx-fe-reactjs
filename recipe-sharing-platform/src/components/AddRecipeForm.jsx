@@ -8,24 +8,40 @@ const AddRecipeForm = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
+  // Validation function to check form data
+  const validate = () => {
+    const newErrors = {};
+
+    // Check if title is empty
+    if (!title) newErrors.title = "Title is required";
+
+    // Check if ingredients are empty or have fewer than two items
+    if (!ingredients) {
+      newErrors.ingredients = "Ingredients are required";
+    } else if (ingredients.split(",").length < 2) {
+      newErrors.ingredients = "Ingredients should contain at least two items";
+    }
+
+    // Check if preparation steps are empty
+    if (!preparationSteps) newErrors.preparationSteps = "Preparation steps are required";
+
+    return newErrors;
+  };
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Front-end validation
-    const newErrors = {};
+    // Validate the form inputs
+    const validationErrors = validate();
 
-    if (!title) newErrors.title = "Title is required";
-    if (!ingredients) newErrors.ingredients = "Ingredients are required";
-    if (!preparationSteps) newErrors.preparationSteps = "Preparation steps are required";
-    if (ingredients.split(",").length < 2) newErrors.ingredients = "Ingredients should contain at least two items";
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    // If validation errors exist, display them and stop the form submission
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
-    // If validation passes, submit the data (You can replace this with your API submission logic)
+    // If validation passes, submit the data (Replace this with your actual form submission logic)
     console.log({ title, ingredients, preparationSteps });
 
     // Reset form and show success message
