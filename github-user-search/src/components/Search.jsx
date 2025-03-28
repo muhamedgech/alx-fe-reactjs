@@ -16,14 +16,14 @@ function Search() {
     try {
       const data = await fetchUserData(username);
 
-      // Check if the response contains a "login" field (valid user)
+      // Ensure the response contains a valid GitHub user
       if (!data.login) {
-        setError("Looks like we can't find the user");
+        setError("Looks like we cant find the user");
       } else {
         setUserData(data);
       }
     } catch (err) {
-      setError("An error occurred while fetching user data");
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
