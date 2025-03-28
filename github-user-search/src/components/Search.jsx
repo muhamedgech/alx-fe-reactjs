@@ -15,7 +15,9 @@ function Search() {
 
     try {
       const data = await fetchUserData(username);
-      if (data.message === "Not Found") {
+
+      // Check if the response contains a "login" field (valid user)
+      if (!data.login) {
         setError("Looks like we can't find the user");
       } else {
         setUserData(data);
